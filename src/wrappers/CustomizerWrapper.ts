@@ -14,6 +14,7 @@ const CustomizeWrapper = styled.section`
     border: none;
     padding: 0.5rem 1rem;
     z-index: 10;
+    cursor: pointer;
   }
 
   .overlay {

@@ -4,7 +4,6 @@ import { colors } from "../utils/constants";
 import { convertBgColor } from "../utils/helpers";
 import { animateCamera } from "../animations/animateCamera";
 import Wrapper from "../wrappers/CustomizerWrapper";
-import * as THREE from "three";
 
 interface Params {
   cameraPositionDesktop: THREE.Vector3;
@@ -61,16 +60,10 @@ const Customize: React.FC<Props> = ({
         className={`${isCustomizeVisible ? "show-colors" : ""} colors-wrapper`}
       >
         {colors.map((color, idx) => {
-          // Only for this model
-          const watchBandColor =
-            convertBgColor(color) === "rgb(255, 255, 255, 1)"
-              ? new THREE.Color("#FF6F61")
-              : color;
-
           return (
             <div
               onClick={() => changeColor(color)}
-              style={{ background: convertBgColor(watchBandColor) }}
+              style={{ background: convertBgColor(color) }}
               key={idx}
               className={`single-color ${
                 selectedColor === color ? "is-active" : ""
