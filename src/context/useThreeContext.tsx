@@ -19,7 +19,7 @@ import {
   camera_position_11,
   camera_position_11_mobile,
 } from "../utils/modelPositions";
-import { colors } from "../utils/constants";
+import { breakPoint, colors } from "../utils/constants";
 import { useAnimateCustomizeCamera } from "../hooks/useAnimateCustomizeCamera";
 
 interface Props {
@@ -71,7 +71,7 @@ export const ThreeProvider: FC<Props> = ({ children }) => {
       document.body.style.overflow = "scroll";
     } else {
       document.body.style.overflow = "hidden";
-      if (window.innerWidth < 800) {
+      if (window.innerWidth < breakPoint) {
         window.alert("Drag to explore the 360-degree view");
       }
     }
