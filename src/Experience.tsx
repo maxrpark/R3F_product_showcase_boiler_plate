@@ -4,7 +4,7 @@ import { Environment, OrbitControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { useThreeContext } from "./context/useThreeContext";
 import { useEffect } from "react";
-import { cameraLookAt_1 } from "./utils/modelPositions";
+import { cameraLookAt_1, cameraLookAt_1_mobile } from "./utils/modelPositions";
 
 const Experience: React.FC = () => {
   const { cameraRef, isCustomizeVisible } = useThreeContext();
@@ -44,7 +44,12 @@ const Experience: React.FC = () => {
   });
 
   useEffect(() => {
-    camera.lookAt(cameraLookAt_1);
+    if (window.innerWidth > 800) {
+      camera.lookAt(cameraLookAt_1);
+    } else {
+      camera.lookAt(cameraLookAt_1_mobile);
+    }
+
     cameraRef.current = camera;
   }, []);
 

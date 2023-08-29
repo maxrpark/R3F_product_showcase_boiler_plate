@@ -1,4 +1,3 @@
-import { Camera } from "@react-three/fiber";
 import {
   useContext,
   createContext,
@@ -8,6 +7,8 @@ import {
   useEffect,
   useState,
 } from "react";
+import { Camera } from "@react-three/fiber";
+import { gsap } from "gsap";
 import {
   cameraLookAt_1,
   cameraLookAt_10,
@@ -18,8 +19,9 @@ import {
   cameraLookAt_11_mobile,
   camera_position_11,
   camera_position_11_mobile,
+  cameraLookAt_1_mobile,
 } from "../utils/modelPositions";
-import { breakPoint, colors } from "../utils/constants";
+import { colors } from "../utils/constants";
 import { useAnimateCustomizeCamera } from "../hooks/useAnimateCustomizeCamera";
 
 interface Props {
@@ -69,9 +71,15 @@ export const ThreeProvider: FC<Props> = ({ children }) => {
   const toggleShowCustomizer = () => {
     if (document.body.style.overflow === "hidden") {
       document.body.style.overflow = "scroll";
+      gsap.set(".webgl-wrapper", {
+        clearProps: "all",
+      });
     } else {
       document.body.style.overflow = "hidden";
-      if (window.innerWidth < breakPoint) {
+      gsap.set(".webgl-wrapper", {
+        zIndex: 1,
+      });
+      if (window.innerWidth < 800) {
         window.alert("Drag to explore the 360-degree view");
       }
     }
@@ -97,11 +105,18 @@ export const ThreeProvider: FC<Props> = ({ children }) => {
   };
 
   useEffect(() => {
-    console.log("no");
+    window.onbeforeunload = function () {
+      window.scrollTo(0, 0);
+    };
+  }, []);
 
-    if (!cameraRef.current) return;
-    console.log("yes");
-  }, [cameraRef.current]);
+  useEffect(() => {
+    if (window.innerWidth > 800) {
+      cameraTarget.current = cameraLookAt_1;
+    } else {
+      cameraTarget.current = cameraLookAt_1_mobile;
+    }
+  }, []);
 
   return (
     <ThreeContext.Provider
