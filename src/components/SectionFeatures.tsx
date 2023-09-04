@@ -1,6 +1,5 @@
-import { useEffect, useRef } from "react";
-import { useThreeContext } from "../context/useThreeContext";
-import { animateCamera } from "../animations/animateCamera";
+import { useRef } from "react";
+import { useAnimateCamera } from "../hooks/useAnimateCamera";
 
 interface Params {
   cameraPositionDesktop: THREE.Vector3;
@@ -16,25 +15,17 @@ const SectionFeatures: React.FC<Props> = ({
   cameraLookAtMobile,
   cameraLookAtDesktop,
 }) => {
-  const { cameraRef, cameraTarget } = useThreeContext();
-
   const sectionContainer = useRef<HTMLDivElement>(null!);
+  useAnimateCamera({
+    trigger: sectionContainer,
+    cameraPositionDesktop,
+    cameraPositionMobile,
+    cameraLookAtMobile,
+    cameraLookAtDesktop,
+    start: "top bottom",
+    end: "top top",
+  });
 
-  useEffect(() => {
-    if (cameraRef.current) {
-      animateCamera({
-        trigger: sectionContainer.current,
-        cameraRef,
-        cameraTarget,
-        cameraPositionDesktop,
-        cameraPositionMobile,
-        cameraLookAtMobile,
-        cameraLookAtDesktop,
-        start: "top bottom",
-        end: "top top",
-      });
-    }
-  }, [cameraRef.current]);
   return (
     <section ref={sectionContainer}>
       <h2>Section Features</h2>

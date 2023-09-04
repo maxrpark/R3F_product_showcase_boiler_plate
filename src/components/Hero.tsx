@@ -1,6 +1,5 @@
-import { useEffect, useRef } from "react";
-import { useThreeContext } from "../context/useThreeContext";
-import { animateCamera } from "../animations/animateCamera";
+import { useRef } from "react";
+import { useAnimateCamera } from "../hooks/useAnimateCamera";
 
 interface Params {
   cameraPositionDesktop: THREE.Vector3;
@@ -16,25 +15,17 @@ const Hero: React.FC<Props> = ({
   cameraLookAtMobile,
   cameraLookAtDesktop,
 }) => {
-  const { cameraRef, cameraTarget } = useThreeContext();
-
   const sectionContainer = useRef<HTMLDivElement>(null!);
 
-  useEffect(() => {
-    if (cameraRef.current) {
-      animateCamera({
-        trigger: sectionContainer.current,
-        cameraRef,
-        cameraTarget,
-        cameraPositionDesktop,
-        cameraPositionMobile,
-        cameraLookAtMobile,
-        cameraLookAtDesktop,
-        start: "top top",
-        end: "+=300px",
-      });
-    }
-  }, [cameraRef.current]);
+  useAnimateCamera({
+    trigger: sectionContainer,
+    start: "top top",
+    end: "+=300px",
+    cameraPositionDesktop,
+    cameraPositionMobile,
+    cameraLookAtMobile,
+    cameraLookAtDesktop,
+  });
 
   return (
     <section style={{ height: "200vh" }} ref={sectionContainer}>
